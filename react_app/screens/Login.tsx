@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ImageBackground } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ImageBackground, Alert } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
+import { useAuth } from 'util/auth';
 
-
+import axios from 'axios';
 interface LoginProps {
   navigation: any;
 }
@@ -10,6 +11,8 @@ interface LoginProps {
 const Login: React.FC<LoginProps> = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { login } = useAuth();
+
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
 
 
@@ -17,12 +20,15 @@ const Login: React.FC<LoginProps> = ({ navigation }) => {
     setIsButtonEnabled(email.length > 0 && password.length > 0);
   }, [email, password]);
 
-  const handleSubmit = () => {
-    if (isButtonEnabled) {
-      navigation.navigate('Home');
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post('http://localhost:5004/api/login', { userName: email });
+      const { userId } = response.data;
+      navigation.navigate('Home', { userName: email, userId });
+    } catch (error) {
+      Alert.alert('Erro de login', 'Usuário não encontrado');
     }
   };
-
 
   return (
     <ImageBackground
@@ -56,7 +62,7 @@ const Login: React.FC<LoginProps> = ({ navigation }) => {
             styles.button,
             { backgroundColor: isButtonEnabled ? '#457b9d' : '#bde0fe' },
           ]}
-          onPress={handleSubmit}
+          onPress={handleLogin}
           disabled={!isButtonEnabled}
           contentStyle={styles.buttonContent}
         >

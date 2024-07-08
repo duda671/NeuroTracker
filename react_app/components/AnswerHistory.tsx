@@ -9,10 +9,10 @@ interface AnswerHistoryProps {
 const AnswerHistory: React.FC<AnswerHistoryProps> = ({ answers, questions }) => {
   return (
     <View style={styles.historyContainer}>
-      <Text style={styles.historyTitle}>Answer History</Text>
+      <Text style={styles.historyTitle}>Histórico de Respostas</Text>
       {questions.map((q) => (
         <View key={q.id} style={styles.answerItem}>
-          <Text style={styles.answerText}>{q.text}: {answers[q.id] || 'Not answered'}</Text>
+          <Text style={styles.answerText}>{q.text}: {answers[q.id] || 'Não respondido'}</Text>
         </View>
       ))}
     </View>

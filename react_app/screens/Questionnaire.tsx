@@ -1,8 +1,7 @@
+import AnswerHistory from '@components/AnswerHistory';
+import Question from '@components/Question';
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import Question from '../components/Question';
-import AnswerHistory from '../components/AnswerHistory';
-
+import { View, Text, TouchableOpacity, StyleSheet, ImageBackground } from 'react-native';
 
 interface QuestionnaireProps {
   navigation: any;
@@ -44,9 +43,13 @@ const Questionnaire: React.FC<QuestionnaireProps> = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.formWrapper}>
-        <Text style={styles.title}>Questionnaire</Text>
+    <ImageBackground
+      source={{ uri: 'https://static.vecteezy.com/ti/vetor-gratis/p1/1427153-fundo-liquido-moderno-azul-vetor.jpg' }}
+      style={styles.background}
+    >
+      <View style={styles.overlay} />
+      <View style={styles.card}>
+        <Text style={styles.title}>Questionário</Text>
         <Question
           question={questions[currentQuestion].text}
           options={questions[currentQuestion].options}
@@ -54,43 +57,52 @@ const Questionnaire: React.FC<QuestionnaireProps> = ({ navigation }) => {
         />
         <View style={styles.navigation}>
           <TouchableOpacity style={[styles.button, styles.navButton]} onPress={handlePrevious} disabled={currentQuestion === 0}>
-            <Text style={styles.buttonText}>Previous</Text>
+            <Text style={styles.buttonText}>Anterior</Text>
           </TouchableOpacity>
           {currentQuestion < questions.length - 1 ? (
             <TouchableOpacity style={[styles.button, styles.navButton]} onPress={handleNext}>
-              <Text style={styles.buttonText}>Next</Text>
+              <Text style={styles.buttonText}>Próximo</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity style={[styles.button, styles.navButton]} onPress={handleSubmit}>
-              <Text style={styles.buttonText}>Submit</Text>
+              <Text style={styles.buttonText}>Enviar</Text>
             </TouchableOpacity>
           )}
         </View>
       </View>
       <AnswerHistory answers={answers} questions={questions} />
-    </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  background: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#6a11cb',
-    padding: 20,
-  },
-  formWrapper: {
-    backgroundColor: 'white',
-    padding: 20,
-    borderRadius: 10,
-    width: '100%',
-    maxWidth: 600,
     alignItems: 'center',
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  card: {
+    width: 335,
+    height: 'auto',
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    padding: 20,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.16,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
+    elevation: 5,
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: '600',
+    textAlign: 'center',
+    color: '#000',
     marginBottom: 20,
   },
   navigation: {
@@ -104,7 +116,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   navButton: {
-    backgroundColor: '#2575fc',
+    backgroundColor: '#457b9d',
     flex: 1,
     alignItems: 'center',
     marginHorizontal: 5,

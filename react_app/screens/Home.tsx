@@ -1,92 +1,76 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import Animated, { BounceIn, BounceOut } from 'react-native-reanimated';
-import { Card, Button } from 'react-native-paper';
+import { View, Text, Button, StyleSheet, ImageBackground } from 'react-native';
+import { useAuth } from '../util/auth';
 
+const Home: React.FC<{ navigation: any }> = ({ navigation }) => {
+  const { user } = useAuth();
 
-interface HomeProps {
-  navigation: any;
-}
-
-const Home: React.FC<HomeProps> = ({ navigation }) => {
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Animated.Text entering={BounceIn} style={styles.welcomeText}>
-          Bem-vindo
-        </Animated.Text>
+    <ImageBackground
+      source={{ uri: 'https://static.vecteezy.com/ti/vetor-gratis/p1/1427153-fundo-liquido-moderno-azul-vetor.jpg' }}
+      style={styles.background}
+    >
+      <View style={styles.overlay} />
+      <View style={styles.card}>
+        <Text style={styles.logoText}>Neuro Tracker</Text>
+        <Text style={styles.welcomeText}>Bem-vindo(a), {user?.name}!</Text>
+        <Button
+          title="Iniciar Nova Triagem"
+          onPress={() => navigation.navigate('Questionnaire')}
+          color="#457b9d"
+        />
+        <Button
+          title="Ver Relatórios"
+          onPress={() => navigation.navigate('Report')}
+          color="#457b9d"
+        />
       </View>
-      <Card style={styles.card}>
-        <Card.Content>
-          <Button
-            mode="contained"
-            style={styles.button}
-            contentStyle={styles.buttonContent}
-            onPress={() => navigation.navigate('Screening')}
-          >
-            Iniciar triagem
-          </Button>
-          <Button
-            mode="contained"
-            style={styles.button}
-            contentStyle={styles.buttonContent}
-            onPress={() => navigation.navigate('Reports')}
-          >
-            Ver relatórios
-          </Button>
-          <Button
-            mode="contained"
-            style={styles.button}
-            contentStyle={styles.buttonContent}
-            onPress={() => navigation.navigate('Others')}
-          >
-            Outros
-          </Button>
-        </Card.Content>
-      </Card>
-    </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f0f4f8',
-    padding: 16,
-  },
-  header: {
-    width: '100%',
-    paddingVertical: 16,
-    paddingHorizontal: 16,
-  },
-  welcomeText: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#4a4a4a',
-  },
-  card: {
+  background: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 32,
-    width: '90%',
-    borderRadius: 16,
-    elevation: 4,
-    padding: 16,
-    alignSelf: 'center',
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  card: {
+    width: 335,
+    height: 'auto',
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    padding: 20,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.16,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  logoText: {
+    fontSize: 24,
+    fontWeight: '600',
+    textAlign: 'center',
+    color: '#000',
+    marginBottom: 10,
+  },
+  welcomeText: {
+    fontSize: 16,
+    fontWeight: '300',
+    textAlign: 'center',
+    color: '#000',
+    marginBottom: 20,
   },
   button: {
     width: '100%',
-    marginVertical: 10,
     borderRadius: 8,
-  },
-  buttonContent: {
-    height: 60, 
-    justifyContent: 'center',
-    width: '100%',
-
+    marginBottom: 10,
   },
 });
-
 
 export default Home;
