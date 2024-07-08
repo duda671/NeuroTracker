@@ -50,14 +50,15 @@ const getUserById = (id: string): User | undefined => {
   return db.users.find(user => user.id === id);
 };
 
-const getReportsByUserId = (userId: string): Report[] => {
+const getReportsByUserId = (userId: string): Report[] | undefined => {
   const user = getUserById(userId);
-  return user ? user.reports : [];
+  return user ? user.reports : undefined;
 };
 
-const getUserByName = (userName: string): User | undefined => {
+const getUserByName = (userName: string) => {
   const db = readDatabase();
   return db.users.find(user => user.userName === userName);
 };
 
-export { addUser, addReportToUser, getUserById, getUserByName,getReportsByUserId, readDatabase };
+
+export { addUser,writeDatabase, addReportToUser, getUserById, getUserByName,getReportsByUserId, readDatabase };

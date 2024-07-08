@@ -16,7 +16,6 @@ interface QuestionType {
 const questions: QuestionType[] = [
   { id: 1, text: 'Question 1?', options: ['Yes', 'No'] },
   { id: 2, text: 'Question 2?', options: ['Yes', 'No'] },
-  // Adicione mais perguntas conforme necessário
 ];
 
 const Questionnaire: React.FC<QuestionnaireProps> = ({ navigation }) => {

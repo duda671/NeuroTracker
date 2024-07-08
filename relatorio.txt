@@ -1,0 +1,21 @@
+Neuro Tracker
+
+NeuroTracker é um aplicativo móvel desenvolvido com o objetivo de proporcionar uma triagem precoce de autismo. Utilizando tecnologias como React Native e uma API Express, o aplicativo oferece uma interface para a coleta de dados e análise de comportamentos que podem indicar riscos de autismo em crianças pequenas.
+
+Distribuição de Responsabilidades:
+Maria Eduarda: Responsável pela arquitetura da API e desenvolvimento das funções e integração.
+Ianna Melissa: Responsável pela interface do projeto.
+
+Introdrução:
+O Neuro Tracker é um aplicativo destinado à detecção precoce de indicativos de autismo em crianças, facilitando diagnósticos iniciais e intervenções. O aplicativo coleta respostas de avaliações interativas e utiliza algoritmos para avaliar os riscos, fornecendo relatórios detalhados aos responsáveis.
+Principais Funcionalidades:
+Avaliações Interativas: Questionários que ajudam a identificar comportamentos relacionados ao autismo.
+Relatórios Automatizados: Geração de relatórios baseados nas respostas das avaliações.
+Gerenciamento de Usuários: Registro e acompanhamento de progresso das crianças.
+
+
+Considerações Técnicas e Desempenho:
+Tecnologias Utilizadas:
+Linguagens: TypeScript (React Native para front-end, Node.js para back-end).
+Frameworks: React Native, Express.js.
+Bibliotecas: Axios para chamadas de API.

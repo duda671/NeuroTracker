@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.readDatabase = exports.getReportsByUserId = exports.getUserByName = exports.getUserById = exports.addReportToUser = exports.addUser = void 0;
+exports.readDatabase = exports.getReportsByUserId = exports.getUserByName = exports.getUserById = exports.addReportToUser = exports.writeDatabase = exports.addUser = void 0;
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const dataFilePath = path_1.default.join(__dirname, '../data.json');
@@ -15,6 +15,7 @@ exports.readDatabase = readDatabase;
 const writeDatabase = (data) => {
     fs_1.default.writeFileSync(dataFilePath, JSON.stringify(data, null, 2), 'utf-8');
 };
+exports.writeDatabase = writeDatabase;
 const addUser = (user) => {
     const db = readDatabase();
     db.users.push(user);
@@ -40,7 +41,7 @@ const getUserById = (id) => {
 exports.getUserById = getUserById;
 const getReportsByUserId = (userId) => {
     const user = getUserById(userId);
-    return user ? user.reports : [];
+    return user ? user.reports : undefined;
 };
 exports.getReportsByUserId = getReportsByUserId;
 const getUserByName = (userName) => {

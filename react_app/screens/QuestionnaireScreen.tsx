@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { ProgressBar } from 'react-native-paper';
 import axios from 'axios';
@@ -42,11 +42,14 @@ const questions = [
 
 const sendResponsesToApi = async (userName: string, userAge: string, responses: number[]) => {
   try {
-    const response = await axios.post('http://localhost:5004/api/responses', {
+    const requestBody = {
       userName,
       userAge,
-      responses,
-    });
+      responses
+    };
+
+    const response = await axios.post('http://localhost:5004/api/responses', requestBody);
+
     return response.data;
   } catch (error) {
     console.error('Erro ao enviar respostas:', error);
@@ -67,9 +70,8 @@ const QuestionnaireScreen: React.FC<QuestionnaireScreenProps> = ({ navigation, r
       setResponses(updatedResponses);
       if (currentQuestionIndex < questions.length - 1) {
         setCurrentQuestionIndex(currentQuestionIndex + 1);
-        setSelectedOption(null); // Reseta a opção selecionada para a próxima pergunta
+        setSelectedOption(null);
       } else {
-        // Enviar respostas para a API e receber o relatório
         const report = await sendResponsesToApi(userName, userAge, updatedResponses);
         navigation.navigate('Report', { report, userName });
       }
@@ -79,8 +81,8 @@ const QuestionnaireScreen: React.FC<QuestionnaireScreenProps> = ({ navigation, r
   const handlePrevious = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
-      setSelectedOption(null); // Reseta a opção selecionada para a pergunta anterior
-      setResponses(responses.slice(0, -1)); // Remove a última resposta
+      setSelectedOption(null);
+      setResponses(responses.slice(0, -1));
     }
   };
 
@@ -91,10 +93,10 @@ const QuestionnaireScreen: React.FC<QuestionnaireScreenProps> = ({ navigation, r
   const progress = (currentQuestionIndex + 1) / questions.length;
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Questionário</Text>
       <View style={styles.progressBarContainer}>
-        <ProgressBar progress={progress} style={styles.progressBar} />
+        <ProgressBar progress={progress} style={styles.progressBar} color="#6a11cb"/>
       </View>
       <View style={styles.questionContainer}>
         <Text style={styles.question}>{questions[currentQuestionIndex].question}</Text>
@@ -112,23 +114,29 @@ const QuestionnaireScreen: React.FC<QuestionnaireScreenProps> = ({ navigation, r
         ))}
       </View>
       <View style={styles.navigation}>
-        <Button title="Anterior" onPress={handlePrevious} disabled={currentQuestionIndex === 0} />
-        <Button title="Próxima" onPress={handleNext} disabled={!selectedOption} />
+        <TouchableOpacity onPress={handlePrevious} disabled={currentQuestionIndex === 0} style={styles.navButton}>
+          <Text style={styles.navButtonText}>Anterior</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleNext} disabled={!selectedOption} style={styles.navButton}>
+          <Text style={styles.navButtonText}>Próxima</Text>
+        </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     padding: 16,
-    backgroundColor: '#fff',
+    alignItems: 'center',
     justifyContent: 'space-between',
+    backgroundColor: '#f9f9f9',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
+    color: '#333',
     marginBottom: 20,
     textAlign: 'center',
   },
@@ -137,7 +145,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   progressBar: {
-    height: 8, // Ajuste a altura aqui
+    height: 10,
   },
   questionContainer: {
     flex: 1,
@@ -155,21 +163,32 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     backgroundColor: '#f0f0f0',
     borderRadius: 5,
-    width: '80%', // Ajuste a largura conforme necessário
+    width: '80%',
     alignItems: 'center',
   },
   optionText: {
     fontSize: 16,
   },
   selectedOption: {
-    backgroundColor: '#c0c0c0',
+    backgroundColor: '#d6c1f5',
   },
   navigation: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
-    paddingHorizontal: 20,
     marginBottom: 20,
+  },
+  navButton: {
+    backgroundColor: '#6a11cb',
+    padding: 10,
+    borderRadius: 5,
+    minWidth: 100,
+    alignItems: 'center',
+  },
+  navButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 

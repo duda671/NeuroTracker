@@ -18,9 +18,10 @@ const ReportsList: React.FC<ReportsListProps> = ({ userId }) => {
     const fetchReports = async () => {
       try {
         const response = await axios.get(`http://localhost:5004/api/reports/${userId}`);
-        console.log(response)
+        console.log(response);
         setReports(response.data);
       } catch (error) {
+        console.error("Error fetching reports:", error);
         Alert.alert('Erro', 'Não foi possível carregar os relatórios.');
       }
     };
@@ -36,7 +37,7 @@ const ReportsList: React.FC<ReportsListProps> = ({ userId }) => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.reportItem}>
-            <Text>{item.report}</Text>
+            <Text style={styles.reportText}>{item.report}</Text>
           </View>
         )}
       />
@@ -48,19 +49,29 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: '#fff',
+    backgroundColor: '#f9f9f9',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
     textAlign: 'center',
+    color: '#333',
   },
   reportItem: {
-    padding: 10,
-    marginVertical: 5,
-    backgroundColor: '#f0f0f0',
-    borderRadius: 5,
+    padding: 12,
+    marginVertical: 8,
+    backgroundColor: '#ffffff',
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  reportText: {
+    fontSize: 16,
+    color: '#666',
   },
 });
 
